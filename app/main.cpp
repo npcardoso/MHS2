@@ -40,8 +40,18 @@ bool do_stuff (const t_spectra & spectra, t_diag_options & options) {
     t_ptr<algorithms::t_mhs> mhs = options.get_mhs();
 
     (*mhs)(spectra, D, &f);
-    options.output() << D << "0 0\n";
+    switch(options.candidate_printer) {
+    case 0: //NORMAL:
+        D.print(options.output()) << "\n";
+        break;
+    case 1: //PRETTY:
+        D.pretty_print(options.output()) << "\n";
+        break;
+    case 2: //LATEX:
+        D.latex_print(options.output()) << "\n";
+        break;
 
+    }
     return true;
 }
 

@@ -1,7 +1,7 @@
 #include "trie.h"
 
 #include <cassert>
-
+#include <boost/foreach.hpp>
 namespace diagnosis {
 namespace structs {
 std::ostream & operator << (std::ostream & out, const t_trie & trie) {
@@ -114,14 +114,24 @@ bool t_trie::add (const t_value_type & candidate,
     return add(candidate, candidate.begin(), check_composite);
 }
 
-std::ostream & t_trie::print (std::ostream & out) const {
-    iterator it = begin();
+std::ostream & t_trie::generic_print (std::ostream & out,
+                                      std::string prefix,
+                                      std::string suffix,
+                                      std::string separator,
+                                      std::string cand_prefix,
+                                      std::string cand_suffix,
+                                      std::string cand_separator) const {
+    bool first = true;
+    out << prefix;
 
-
-    while (it != end())
-        out << *(it++) << std::endl;
-
-    return out;
+    BOOST_FOREACH(const value_type &d,
+                  *this) {
+        if(!first)
+            out << separator;
+        d.generic_print(out, cand_prefix, cand_suffix, cand_separator);
+        first = false;
+    }
+    return out << suffix;
 }
 
 t_trie::iterator t_trie::begin () const {

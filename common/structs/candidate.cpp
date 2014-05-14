@@ -18,12 +18,22 @@ std::istream & t_candidate::read (std::istream & in) {
     return in;
 }
 
-std::ostream & t_candidate::print (std::ostream & out) const {
+std::ostream & t_candidate::generic_print (std::ostream & out,
+                                           std::string prefix,
+                                           std::string suffix,
+                                           std::string separator) const {
+    bool first = true;
+    out << prefix;
+
     BOOST_FOREACH(const value_type &c,
                   *this) {
-        out << c << " ";
+        if(!first)
+            out << separator;
+        out << c;
+        first = false;
     }
-    return out << "0";
+    return out << suffix;
 }
+
 }
 }
