@@ -7,12 +7,14 @@ using namespace diagnosis::algorithms;
 t_diag_options::t_diag_options (std::string app_name) : t_options(app_name, true, true) {
     // spectra
     print_spectra = false;
+    candidate_printer = NORMAL;
     ambiguity_groups = false;
     conflict_ambiguity = false;
 
     add(t_opt('p', "print-spectra", false, false, "Prints the spectra read from input"));
-    add(t_opt('a', "ambiguity", false, false, "Turn on ambiguity group removal"));
-    add(t_opt('c', "conflict", false, false, "Turn on conflict ambiguity removal"));
+    add(t_opt('P', "candidate-printer", true, false, "Selects a candidate printer (normal, pretty, latex)"));
+    add(t_opt('a', "ambiguity", false, false, "Turns on ambiguity group removal"));
+    add(t_opt('c', "conflict", false, false, "Turns on conflict ambiguity removal"));
 
     // cutoff
     cutoff = t_ptr<t_cutoff>(new t_cutoff());
@@ -20,10 +22,10 @@ t_diag_options::t_diag_options (std::string app_name) : t_options(app_name, true
     add(t_opt('t', "time", true, false, "Sets the time-based cutoff value"));
     add(t_opt('D', "candidates", true, false, "Sets the candidate collection size cutoff value"));
     add(t_opt('d', "cardinality", true, false, "Sets the candidate cardinality cutoff value"));
-    add(t_opt('l', "lambda", true, false, "Sets lambda cutoff value"));
+    add(t_opt('l', "lambda", true, false, "Sets the lambda cutoff value"));
 
     // similarity
-    add(t_opt('s', "similarity", true, false, "Sets heuristic (possible values: ochiai, jaccard, tarantula, random)"));
+    add(t_opt('s', "similarity", true, false, "Sets heuristic (ochiai, jaccard, tarantula, random)"));
 
     // parallelization
     threads = std::thread::hardware_concurrency();
@@ -38,6 +40,19 @@ bool t_diag_options::short_opt (int c, char * param) {
     // Spectra Stuff
     case 'p': // Print spectra
         print_spectra = true;
+        break;
+
+    case 'P':
+        if(!strcmp("normal", optarg))
+            candidate_printer = NORMAL;
+        else if(!strcmp("pretty", optarg))
+            candidate_printer = PRETTY;
+        else if(!strcmp("latex", optarg))
+            candidate_printer = LATEX;
+        else {
+            std::cerr << "Invalid candidate printer: " << optarg << std::endl;
+            return false;
+        }
         break;
 
     case 'a': // Ambiguity groups

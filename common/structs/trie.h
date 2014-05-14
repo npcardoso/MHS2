@@ -13,8 +13,20 @@ namespace diagnosis {
 namespace structs {
 class t_trie_iterator;
 
+
+#define TRIE_NORMAL_PREFIX ""
+#define TRIE_NORMAL_SUFFIX "\n0 0"
+#define TRIE_NORMAL_SEP "\n"
+#define TRIE_PRETTY_PREFIX "{"
+#define TRIE_PRETTY_SUFFIX "}"
+#define TRIE_PRETTY_SEP ", "
+#define TRIE_LATEX_PREFIX "\\{"
+#define TRIE_LATEX_SUFFIX "\\}"
+#define TRIE_LATEX_SEP ", "
+
+
 class t_trie {
-public:
+    public:
     typedef t_candidate t_value_type;
     typedef t_value_type value_type; // Compatibility with stl
     typedef t_trie_iterator t_iterator;
@@ -40,7 +52,45 @@ public:
         return elements;
     }
 
-    std::ostream & print (std::ostream & out) const;
+    std::ostream & generic_print (std::ostream & out,
+                                  std::string prefix,
+                                  std::string suffix,
+                                  std::string separator,
+                                  std::string cand_prefix,
+                                  std::string cand_suffix,
+                                  std::string cand_separator) const;
+
+    inline std::ostream & print (std::ostream & out) const {
+        return generic_print(out,
+                             TRIE_NORMAL_PREFIX,
+                             TRIE_NORMAL_SUFFIX,
+                             TRIE_NORMAL_SEP,
+                             CANDIDATE_NORMAL_PREFIX,
+                             CANDIDATE_NORMAL_SUFFIX,
+                             CANDIDATE_NORMAL_SEP);
+    }
+
+    inline std::ostream & pretty_print (std::ostream & out) const {
+        return generic_print(out,
+                             TRIE_PRETTY_PREFIX,
+                             TRIE_PRETTY_SUFFIX,
+                             TRIE_PRETTY_SEP,
+                             CANDIDATE_PRETTY_PREFIX,
+                             CANDIDATE_PRETTY_SUFFIX,
+                             CANDIDATE_PRETTY_SEP);
+    }
+
+    inline std::ostream & latex_print (std::ostream & out) const {
+        return generic_print(out,
+                             TRIE_LATEX_PREFIX,
+                             TRIE_LATEX_SUFFIX,
+                             TRIE_LATEX_SEP,
+                             CANDIDATE_LATEX_PREFIX,
+                             CANDIDATE_LATEX_SUFFIX,
+                             CANDIDATE_LATEX_SEP);
+    }
+
+
 
     iterator begin () const;
     iterator end () const;
@@ -54,7 +104,7 @@ public:
     bool operator == (const t_trie & t) const;
     friend class t_trie_iterator;
 
-private:
+    private:
     bool add (const t_value_type & candidate,
               t_value_type::const_iterator component,
               bool composites);
@@ -66,7 +116,7 @@ private:
                        t_value_type::const_iterator component,
                        bool strict=false) const;
 
-private:
+    private:
     typedef std::map<t_component_id, t_trie> t_children;
 
     const t_trie * parent;
@@ -82,7 +132,7 @@ std::istream & operator >> (std::istream & in, t_trie & trie);
 
 class t_trie_iterator : public std::iterator<std::forward_iterator_tag, // type of iterator
                                              const t_trie::t_value_type> {
-public:
+    public:
     t_trie_iterator (const t_trie * level);
     bool operator != (const t_trie_iterator & it) const;
     bool operator == (const t_trie_iterator & it) const;
@@ -94,7 +144,7 @@ public:
 
     const t_trie::t_value_type * operator -> () const;
     const t_trie::t_value_type & operator * () const;
-private:
+    private:
     t_trie::t_value_type current;
     const t_trie * level;
 };

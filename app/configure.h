@@ -8,6 +8,9 @@
 
 using namespace diagnosis;
 
+
+
+
 class t_diag_options : public t_options {
 public:
     t_diag_options (std::string app_name);
@@ -19,6 +22,9 @@ public:
     bool print_spectra;
     bool ambiguity_groups;
     bool conflict_ambiguity;
+
+    typedef enum {NORMAL, PRETTY, LATEX} t_candidate_printer;
+    t_candidate_printer candidate_printer;
 
     t_ptr<algorithms::t_parallelization_factory_random> parallelization;
     t_count threads;
