@@ -7,6 +7,8 @@
 #include <cstring>
 #include <cmath>
 
+#include <random>
+
 #include <algorithm>
 #include <functional>
 #include <boost/random/uniform_real_distribution.hpp>
