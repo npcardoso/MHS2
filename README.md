@@ -75,14 +75,14 @@ Usage: ./build/mhs2 [options]
 	-h,--help	       Shows help text  
 	-v,--verbose	   Enables verbose output  
 	-p,--print-spectra Prints the spectra read from input  
-  -P, --candidate-printer	Selects a candidate printer (normal, pretty, latex)
+  -P, --candidate-printer	Selects a candidate printer (options: normal, pretty, latex)
 	-a,--ambiguity	   Turn on ambiguity group removal  
 	-c,--conflict	   Turn on conflict ambiguity removal  
 	-t,--time          Sets the time-based cutoff value  
 	-D,--candidates	   Sets the candidate collection size cutoff value  
 	-d,--cardinality   Sets the candidate cardinality cutoff value  
 	-l,--lambda        Sets lambda cutoff value  
-	-s,--similarity	   Sets heuristic (possible values: ochiai, jaccard, tarantula, random)  
+	-s,--similarity	   Sets heuristic (options: ochiai, jaccard, tarantula, random)  
 	-L,--fork-level	   Sets the forking level  
 	-T,--threads	   Sets the number of threads  
 ```
