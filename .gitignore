@@ -1,6 +1,6 @@
 .scons.conf
 .sconsign.dblite
-obj
+build
 
 gmon.out
 core
