@@ -15,5 +15,5 @@ def find_sources(root, depth=4):
 sources = find_sources("app") + find_sources("common")
 print [x.abspath for x in sources]
 env.Append(CPPPATH = "/common",
-           LINKFLAGS = " -lboost_system -lboost_thread")
+           LINKFLAGS = " -lboost_system")
 obj = env.Program(target = "diag", source = sources)
