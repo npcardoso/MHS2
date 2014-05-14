@@ -75,6 +75,7 @@ Usage: ./build/mhs2 [options]
 	-h,--help	       Shows help text  
 	-v,--verbose	   Enables verbose output  
 	-p,--print-spectra Prints the spectra read from input  
+  -P, --candidate-printer	Selects a candidate printer (normal, pretty, latex)
 	-a,--ambiguity	   Turn on ambiguity group removal  
 	-c,--conflict	   Turn on conflict ambiguity removal  
 	-t,--time          Sets the time-based cutoff value  
