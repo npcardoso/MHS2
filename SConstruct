@@ -15,17 +15,13 @@ root = Dir('#').abspath
 
 vars = Variables('.scons.conf')
 
-vars.Add('PATH', '', '')
 vars.Add('LIBPATH', '', '')
 vars.Add('CPPPATH', '', '')
 
-vars.Add('prefix', '', join(root, 'obj', 'install'))
-vars.Add('build_dir', '', join(root, 'obj'))
-vars.Add('libext', '', 'so')
+vars.Add('prefix', '', join(root, 'build', 'install'))
+vars.Add('build_dir', '', join(root, 'build'))
 
 vars.Add('debug', '', False)
-
-vars.Add('CXX', '', 'clang++')
 vars.Update(env)
 
 
@@ -34,7 +30,6 @@ for i in ['prefix', 'build_dir']:
     env[i]  = env.Dir(env[i]).abspath
 
 #Build Flags
-
 if(env['debug']):
     env['CCFLAGS'] = "-g -O0"
 else:

@@ -16,4 +16,4 @@ sources = find_sources("app") + find_sources("common")
 print [x.abspath for x in sources]
 env.Append(CPPPATH = "/common",
            LINKFLAGS = " -lboost_system")
-obj = env.Program(target = "diag", source = sources)
+obj = env.Program(target = "mhs2", source = sources)
