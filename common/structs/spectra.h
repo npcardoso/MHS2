@@ -137,7 +137,7 @@ T & t_spectra::requires () {
     if (tmp)
         return *tmp;
 
-    throw ;
+    throw;
 }
 
 template <class T>
@@ -148,7 +148,7 @@ const T & t_spectra::requires () const {
     if (tmp)
         return *tmp;
 
-    throw ;
+    throw;
 }
 }
 }

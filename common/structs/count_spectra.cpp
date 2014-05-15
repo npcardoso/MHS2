@@ -175,10 +175,9 @@ std::istream & t_count_spectra::read (std::istream & in) {
             else
                 std::cerr << "Problem reading spectra after " << read_transactions << " transactions and " << read_components << " components" << std::endl;
         }
-        else
-            if(!in.eof()){
-                std::cerr << "Problem reading spectra size " << std::endl;
-            }
+        else if (!in.eof()) {
+            std::cerr << "Problem reading spectra size " << std::endl;
+        }
     }
 
     std::ios::iostate in_state = in.rdstate();

@@ -26,7 +26,7 @@ class t_trie_iterator;
 
 
 class t_trie {
-    public:
+public:
     typedef t_candidate t_value_type;
     typedef t_value_type value_type; // Compatibility with stl
     typedef t_trie_iterator t_iterator;
@@ -90,8 +90,6 @@ class t_trie {
                              CANDIDATE_LATEX_SEP);
     }
 
-
-
     iterator begin () const;
     iterator end () const;
 
@@ -104,7 +102,7 @@ class t_trie {
     bool operator == (const t_trie & t) const;
     friend class t_trie_iterator;
 
-    private:
+private:
     bool add (const t_value_type & candidate,
               t_value_type::const_iterator component,
               bool composites);
@@ -116,7 +114,7 @@ class t_trie {
                        t_value_type::const_iterator component,
                        bool strict=false) const;
 
-    private:
+private:
     typedef std::map<t_component_id, t_trie> t_children;
 
     const t_trie * parent;
@@ -132,7 +130,7 @@ std::istream & operator >> (std::istream & in, t_trie & trie);
 
 class t_trie_iterator : public std::iterator<std::forward_iterator_tag, // type of iterator
                                              const t_trie::t_value_type> {
-    public:
+public:
     t_trie_iterator (const t_trie * level);
     bool operator != (const t_trie_iterator & it) const;
     bool operator == (const t_trie_iterator & it) const;
@@ -144,7 +142,7 @@ class t_trie_iterator : public std::iterator<std::forward_iterator_tag, // type 
 
     const t_trie::t_value_type * operator -> () const;
     const t_trie::t_value_type & operator * () const;
-    private:
+private:
     t_trie::t_value_type current;
     const t_trie * level;
 };

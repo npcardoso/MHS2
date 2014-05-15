@@ -14,7 +14,7 @@ public:
 
     void set_cutoff (t_const_ptr<t_basic_cutoff> cutoff);
     void set_parallelization (t_const_ptr<t_parallelization> parallelization);
-    void set_similarity(t_const_ptr<t_similarity> similarity);
+    void set_similarity (t_const_ptr<t_similarity> similarity);
 
     virtual void operator () (const structs::t_spectra & spectra,
                               structs::t_trie & D,

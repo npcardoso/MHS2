@@ -98,7 +98,7 @@ bool t_options::configure (int argc, char ** argv) {
 
     while ((c = getopt_long(argc, argv, short_opts.c_str(),
                             long_opts, &option_index)) != -1) {
-        if(c == '?')
+        if (c == '?')
             ok = false;
         else if (c)
             ok = ok && short_opt(c, optarg);
@@ -111,16 +111,20 @@ bool t_options::configure (int argc, char ** argv) {
 
     if (argc != optind) {
         std::cerr << "Extraneous arguments: " << "'" << argv[optind++] << "'";
-        while(optind != argc)
+
+        while (optind != argc)
             std::cerr << ", '" << argv[optind++] << "'";
+
         std::cerr << std::endl;
         return false;
     }
+
     return ok;
 }
 
 void t_options::show_help () const {
     std::cerr << "Usage: " << app_name << " [options]\n";
+
 
     BOOST_FOREACH(auto & o, opts) {
         if (o.short_opt)
@@ -132,10 +136,10 @@ void t_options::show_help () const {
         if (o.long_opt)
             std::cerr << "--" << o.long_opt;
 
-
-        for(t_count i=o.long_opt?strlen(o.long_opt):0;
-            i < max_long_opt_size; i++)
+        for (t_count i = o.long_opt ? strlen(o.long_opt) : 0;
+             i < max_long_opt_size; i++)
             std::cerr << " ";
+
         std::cerr << "\t" << o.help_text << std::endl;
     }
 }
@@ -191,13 +195,14 @@ std::ostream & t_options::print (std::ostream & out) const {
     return out;
 }
 
-
-void t_options::add(const t_opt & option) {
-    if(option.long_opt) {
+void t_options::add (const t_opt & option) {
+    if (option.long_opt) {
         t_count size = strlen(option.long_opt);
-        if(size > max_long_opt_size)
+
+        if (size > max_long_opt_size)
             max_long_opt_size = size;
     }
+
     opts.push_back(option);
 }
 

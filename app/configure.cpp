@@ -17,7 +17,7 @@ t_diag_options::t_diag_options (std::string app_name) : t_options(app_name, true
     add(t_opt('c', "conflict", false, false, "Turns on conflict ambiguity removal"));
 
     // cutoff
-    cutoff = t_ptr<t_cutoff>(new t_cutoff());
+    cutoff = t_ptr<t_cutoff> (new t_cutoff());
 
     add(t_opt('t', "time", true, false, "Sets the time-based cutoff value (seconds)"));
     add(t_opt('D', "candidates", true, false, "Sets the candidate collection size cutoff value"));
@@ -29,7 +29,7 @@ t_diag_options::t_diag_options (std::string app_name) : t_options(app_name, true
 
     // parallelization
     threads = std::thread::hardware_concurrency();
-    parallelization = t_ptr<t_parallelization_factory_random>(new t_parallelization_factory_random(2));
+    parallelization = t_ptr<t_parallelization_factory_random> (new t_parallelization_factory_random(2));
 
     add(t_opt('L', "fork-level", true, false, "Sets the forking level"));
     add(t_opt('T', "threads", true, false, "Sets the number of threads"));
@@ -43,16 +43,18 @@ bool t_diag_options::short_opt (int c, char * param) {
         break;
 
     case 'P':
-        if(!strcmp("normal", optarg))
+
+        if (!strcmp("normal", optarg))
             candidate_printer = NORMAL;
-        else if(!strcmp("pretty", optarg))
+        else if (!strcmp("pretty", optarg))
             candidate_printer = PRETTY;
-        else if(!strcmp("latex", optarg))
+        else if (!strcmp("latex", optarg))
             candidate_printer = LATEX;
         else {
             std::cerr << "Invalid candidate printer: " << optarg << std::endl;
             return false;
         }
+
         break;
 
     case 'a': // Ambiguity groups
@@ -65,6 +67,7 @@ bool t_diag_options::short_opt (int c, char * param) {
 
 
     case 't': // Time cutoff
+
         if (!verb_strtof(optarg, cutoff->max_time, true))
             return false;
 
@@ -82,27 +85,30 @@ bool t_diag_options::short_opt (int c, char * param) {
 
     // Similarity stuff
     case 's':
-        if(!strcmp("ochiai", optarg))
-            similarity = t_ptr<t_similarity>(new t_ochiai());
-        else if(!strcmp("tarantula", optarg))
-            similarity = t_ptr<t_similarity>(new t_tarantula());
-        else if(!strcmp("jaccard", optarg))
-            similarity = t_ptr<t_similarity>(new t_jaccard());
-        else if(!strcmp("random", optarg))
-            similarity = t_ptr<t_similarity>(new t_random());
+
+        if (!strcmp("ochiai", optarg))
+            similarity = t_ptr<t_similarity> (new t_ochiai());
+        else if (!strcmp("tarantula", optarg))
+            similarity = t_ptr<t_similarity> (new t_tarantula());
+        else if (!strcmp("jaccard", optarg))
+            similarity = t_ptr<t_similarity> (new t_jaccard());
+        else if (!strcmp("random", optarg))
+            similarity = t_ptr<t_similarity> (new t_random());
         else {
             std::cerr << "Invalid similarity coeficient: " << optarg << std::endl;
             return false;
         }
+
         break;
 
     // Parallelization stuff
     case 'L': // Fork level
         t_count fork_level;
-        if(!verb_strtoi(optarg, fork_level, true))
-           return false;
 
-        parallelization = t_ptr<t_parallelization_factory_random>(new t_parallelization_factory_random(fork_level));
+        if (!verb_strtoi(optarg, fork_level, true))
+            return false;
+
+        parallelization = t_ptr<t_parallelization_factory_random> (new t_parallelization_factory_random(fork_level));
         break;
 
     case 'T':
@@ -134,13 +140,13 @@ std::ostream & t_diag_options::print (std::ostream & out) const {
     return out;
 }
 
-t_ptr<algorithms::t_mhs> t_diag_options::get_mhs() const {
+t_ptr<algorithms::t_mhs> t_diag_options::get_mhs () const {
     t_ptr<t_mhs> mhs;
 
-    if(threads > 1)
-        mhs = t_ptr<t_mhs>(new t_mhs_parallel(parallelization, threads));
+    if (threads > 1)
+        mhs = t_ptr<t_mhs> (new t_mhs_parallel(parallelization, threads));
     else
-        mhs = t_ptr<t_mhs>(new t_mhs());
+        mhs = t_ptr<t_mhs> (new t_mhs());
 
     mhs->set_cutoff(cutoff);
     mhs->set_similarity(similarity);

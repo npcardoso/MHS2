@@ -23,17 +23,19 @@ std::ostream & t_candidate::generic_print (std::ostream & out,
                                            std::string suffix,
                                            std::string separator) const {
     bool first = true;
+
+
     out << prefix;
 
     BOOST_FOREACH(const value_type &c,
                   *this) {
-        if(!first)
+        if (!first)
             out << separator;
+
         out << c;
         first = false;
     }
     return out << suffix;
 }
-
 }
 }

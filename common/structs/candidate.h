@@ -9,7 +9,6 @@
 
 namespace diagnosis {
 namespace structs {
-
 #define CANDIDATE_NORMAL_PREFIX ""
 #define CANDIDATE_NORMAL_SUFFIX " 0"
 #define CANDIDATE_NORMAL_SEP " "
