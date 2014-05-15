@@ -4,6 +4,8 @@
 #include "trie.h"
 
 #include <boost/foreach.hpp>
+#include <cmath>
+#include <iomanip>
 
 namespace diagnosis {
 namespace structs {
@@ -307,24 +309,84 @@ void t_spectra::set_transaction_count (t_count transaction_count) {
 
 std::ostream & t_spectra::print (std::ostream & out,
                                  const t_spectra_filter * filter) const {
-    throw;
+    assert(filter ? (filter->get_last_component() <= get_component_count()) : true);
+    assert(filter ? (filter->get_last_transaction() <= get_transaction_count()) : true);
+
+    t_spectra_iterator it(get_component_count(),
+                          get_transaction_count(),
+                          filter);
+
+    t_count width_comp = log10(get_component_count());
+    t_count width_tran = 2 + log10(get_transaction_count());
+
+    t_count max_count = 0;
+
+    while (it.next_transaction())
+        while (it.next_component())
+            max_count = std::max(max_count, get_activations(it.get_component(), it.get_transaction()));
+
+    width_comp = std::max(width_comp, (t_count) log10(max_count)) + 2;
+
+    out << std::setw(width_tran + 1) << "|";
+
+    while (it.next_component())
+        out << std::setw(width_comp) << it.get_component() << " |";
+
+    out << "|Err (f)\n";
+
+    char fill = out.fill('-');
+    out << std::setw(width_tran + 1) << "+";
+
+    while (it.next_component())
+        out << std::setw(width_comp + 2) << "+";
+
+    out << "+-------\n";
+    out.fill(fill);
+
+    while (it.next_transaction()) {
+        out << std::setw(width_tran) << std::left << it.get_transaction() << std::setw(0) << "|" << std::right;
+
+        while (it.next_component())
+            out << std::setw(width_comp) << get_activations(it.get_component(), it.get_transaction()) << " |";
+
+        out << "| " << is_error(it.get_transaction()) << "  (" << get_error(it.get_transaction()) << ")\n";
+    }
+
+    fill = out.fill('-');
+    out << std::setw(width_tran + 1) << "+";
+
+    while (it.next_component())
+        out << std::setw(width_comp + 2) << "+";
+
+    out << "+-------\n";
+    out.fill(fill);
+
+
+    return out;
 }
 
 std::ostream & t_spectra::write (std::ostream & out,
                                  const t_spectra_filter * filter) const {
-    throw;
+    assert(filter ? (filter->get_last_component() <= get_component_count()) : true);
+    assert(filter ? (filter->get_last_transaction() <= get_transaction_count()) : true);
+
+    t_spectra_iterator it(get_component_count(),
+                          get_transaction_count(),
+                          filter);
+    out << get_component_count(filter) << " " << get_transaction_count(filter) << "\n";
+
+    while (it.next_transaction()) {
+        while (it.next_component())
+            out << get_activations(it.get_component(), it.get_transaction()) << " ";
+
+        out << " " << get_error(it.get_transaction()) << "\n";
+    }
+
+    return out;
 }
 
 std::istream & t_spectra::read (std::istream & in) {
     throw;
-}
-
-std::istream & operator >> (std::istream & in, t_spectra & spectra) {
-    return spectra.read(in);
-}
-
-std::ostream & operator << (std::ostream & out, const t_spectra & spectra) {
-    return spectra.write(out);
 }
 
 t_basic_spectra::t_basic_spectra () {
@@ -414,5 +476,15 @@ void t_basic_spectra::set_error (t_transaction_id transaction,
 
     errors[transaction - 1] = error;
 }
+}
+}
+
+namespace std {
+std::istream & operator >> (std::istream & in, diagnosis::structs::t_spectra & spectra) {
+    return spectra.read(in);
+}
+
+std::ostream & operator << (std::ostream & out, const diagnosis::structs::t_spectra & spectra) {
+    return spectra.write(out);
 }
 }

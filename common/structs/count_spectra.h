@@ -37,12 +37,6 @@ public:
               t_count count=1,
               bool ignore_unknown_components=false);
 
-    virtual std::ostream & print (std::ostream & out,
-                                  const t_spectra_filter * filter=NULL) const;
-
-    virtual std::ostream & write (std::ostream & out,
-                                  const t_spectra_filter * filter=NULL) const;
-
     virtual std::istream & read (std::istream & in);
 
 private:
