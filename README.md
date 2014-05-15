@@ -3,12 +3,23 @@
 MHS2 is a heuristic-based approximation algorithm for solving the
 minimal hitting set/set cover problem.
 
+The minimal hitting set problem can be formulated as follows:
+
+```
+Given a set of elements `U = \{1, 2, \dots, M\}` (called the universe)
+and a collection `S` of `N` non-empty sets whose union is equal to the
+universe, find all sets `d` such that:
+- The intersection of `d` with any element of `S` is not empty.
+- The intersection of any proper subset of `d` with some element of
+  `S` is empty.
+```
+
+
 ## Introduction
+
 This algorithm was primarily designed for solving the candidate
-generation problem in scope of spectrum-based fault localization (SFL).
-Even though designed for diagnosis applications, this algorithm
-should be applicable to other domains which require the calculation
-of minimal hitting sets.
+generation problem in scope of spectrum-based fault localization
+(SFL).
 
 ### Terminology
 * SFL approaches work by abstracting the run-time behavior of the
@@ -49,8 +60,44 @@ For this particular example, two conflicts exist: `{c1,c2}` and `{c1,c3}`.
 For such conflicts 5 candidates exist: `{c1}`, `{c1,c3}`, `{c2,c3}`, `{c1,c2}`, `{c1,c2,c3}`.
 From the 5 candidates only two are minimal: `{c1}`, `{c2,c3}`.
 
+### Application to other domains
+
+Even though designed for SFL applications, this algorithm should be
+applicable to other domains which require the calculation of minimal
+hitting sets.
+
+In practice, the algorithm calculates the minimal candidates for the
+conflict collection encoded in the spectra.
+Mapping the terminology presented above to the problem statement presented on top:
+- The set of all components is equivalent to the universe `U`.
+- The set of all conflicts (i.e., the failing transactions) is
+  equivalent to the collection `S`.
+- A minimal candidate is in fact a minimal hitting set for `(U,S)`.
+
+In order to apply implementation to arbitrary minimal hitting set
+problems, the elements of `S` must be encoded as failing transactions.
+
+### More information
+
+The minimal hitting set algorithm was described in:
+
+```
+MHS2: A Map-Reduce heuristic-driven minimal hitting set search algorithm  
+Rui Cardoso, Nuno and Abreu  
+International Conference on Multicore Software Engineering, Performance, and Tools (MUSEPAT) 2013  
+```
+
+and consisted in the improvement of the algorithm described in:
+
+```
+A low-cost approximate minimal hitting set algorithm and its application to model-based diagnosis  
+R Abreu, AJC van Gemund  
+Abstraction, Reformulation, and Approximation (SARA) 2009  
+```
+
 
 ## Building
+
 The dependencies for this project are:
 
 * [g++](http://gcc.gnu.org/)/[clang++](http://clang.llvm.org/) with c++11 enabled
@@ -67,6 +114,7 @@ variables:
 To build just type `scons` and all should be fine.
 
 ## Running
+
 ```
 Usage: ./build/mhs2 [options]  
   -i, --input            	Defines input file  
@@ -85,7 +133,9 @@ Usage: ./build/mhs2 [options]
   -L, --fork-level       	Sets the forking level  
   -T, --threads          	Sets the number of threads  
 ```
+
 ### Input Format
+
 A spectra is represented in the following format:
 
 ```
@@ -117,6 +167,7 @@ The corresponding spectra is as follows:
 ```
 
 ### Output Format
+
 A candidate is represented by a set of positive numbers (the 1-based
 indexes of its components) followed by a `0`.
 The list of candidates is followed by two `0`.
