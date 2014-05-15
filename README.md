@@ -38,7 +38,6 @@ of minimal hitting sets.
 * A **minimal candidate** is a candidate not containing any
   candidate of smaller cardinality (i.e., a proper subset).
 
-#### Example
 Consider a system with 3 components: `c1`, `c2`, and `c3`. Also, consider that
 3 transactions were observed for this system:
 
@@ -62,28 +61,29 @@ In order to build with boost in a non-default place, create a
 `.scons.conf` file in the project root defining the following
 variables:
 
-* LIBPATH: path to `lib` directory (e.g., `LIBPATH="/usr/local/lib"`)
-* CPPPATH: path to `include` directory (e.g., `LIBPATH="/usr/local/lib"`)
+* `LIBPATH`: path to `lib` directory (e.g., `LIBPATH="/usr/local/lib"`)
+* `CPPPATH`: path to `include` directory (e.g., `LIBPATH="/usr/local/lib"`)
 
 To build just type `scons` and all should be fine.
 
 ## Running
 ```
 Usage: ./build/mhs2 [options]  
-	-i,--input	       Defines input file  
-	-o,--output        Defines output file  
-	-h,--help	       Shows help text  
-	-v,--verbose	   Enables verbose output  
-	-p,--print-spectra Prints the spectra read from input  
-	-a,--ambiguity	   Turn on ambiguity group removal  
-	-c,--conflict	   Turn on conflict ambiguity removal  
-	-t,--time          Sets the time-based cutoff value  
-	-D,--candidates	   Sets the candidate collection size cutoff value  
-	-d,--cardinality   Sets the candidate cardinality cutoff value  
-	-l,--lambda        Sets lambda cutoff value  
-	-s,--similarity	   Sets heuristic (possible values: ochiai, jaccard, tarantula, random)  
-	-L,--fork-level	   Sets the forking level  
-	-T,--threads	   Sets the number of threads  
+  -i, --input            	Defines input file  
+  -o, --output           	Defines output file  
+  -h, --help             	Shows help text  
+  -v, --verbose          	Enables verbose output  
+  -p, --print-spectra    	Prints the spectra read from input  
+  -P, --candidate-printer	Selects a candidate printer (normal, pretty, latex)  
+  -a, --ambiguity        	Turns on ambiguity group removal  
+  -c, --conflict         	Turns on conflict ambiguity removal  
+  -t, --time             	Sets the time-based cutoff value (seconds)  
+  -D, --candidates       	Sets the candidate collection size cutoff value  
+  -d, --cardinality      	Sets the candidate cardinality cutoff value  
+  -l, --lambda           	Sets the lambda cutoff value  
+  -s, --similarity       	Sets heuristic (ochiai, jaccard, tarantula, random)  
+  -L, --fork-level       	Sets the forking level  
+  -T, --threads          	Sets the number of threads  
 ```
 ### Input Format
 A spectra is represented in the following format:
@@ -131,12 +131,10 @@ represented as follows:
 0 0  
 ```
 
-### Options
-
 ## Benchmarking
 
-In order to test the performance of this implementation, we include a
-spectra generation tool.
+In order to test the performance of this implementation, a
+spectra generation tool is included.
 This tool randomly generates spectra based on 4 parameters:
 
 * `M`: number of components

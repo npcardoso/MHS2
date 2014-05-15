@@ -19,7 +19,7 @@ t_diag_options::t_diag_options (std::string app_name) : t_options(app_name, true
     // cutoff
     cutoff = t_ptr<t_cutoff>(new t_cutoff());
 
-    add(t_opt('t', "time", true, false, "Sets the time-based cutoff value"));
+    add(t_opt('t', "time", true, false, "Sets the time-based cutoff value (seconds)"));
     add(t_opt('D', "candidates", true, false, "Sets the candidate collection size cutoff value"));
     add(t_opt('d', "cardinality", true, false, "Sets the candidate cardinality cutoff value"));
     add(t_opt('l', "lambda", true, false, "Sets the lambda cutoff value"));
