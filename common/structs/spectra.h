@@ -94,9 +94,6 @@ public:
     const T & requires () const;
 };
 
-std::istream & operator >> (std::istream & in, t_spectra & spectra);
-std::ostream & operator << (std::ostream & out, const t_spectra & spectra);
-
 class t_basic_spectra : public t_spectra {
     typedef std::vector<t_error> t_errors;
     t_errors errors;
@@ -152,6 +149,12 @@ const T & t_spectra::requires () const {
 }
 }
 }
+
+namespace std {
+std::istream & operator >> (std::istream & in, diagnosis::structs::t_spectra & spectra);
+std::ostream & operator << (std::ostream & out, const diagnosis::structs::t_spectra & spectra);
+}
+
 #else
 namespace diagnosis {
 namespace structs {
