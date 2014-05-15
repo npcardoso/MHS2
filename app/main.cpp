@@ -23,7 +23,8 @@ bool do_stuff (const t_spectra & spectra, t_diag_options & options) {
     // Check ambiguity groups
     if (options.ambiguity_groups)
         ambiguity_groups = t_ambiguity_groups(spectra);
-    f=ambiguity_groups.filter();
+
+    f = ambiguity_groups.filter();
 
     // Use only minimal conflicts
     if (options.conflict_ambiguity)
@@ -39,19 +40,22 @@ bool do_stuff (const t_spectra & spectra, t_diag_options & options) {
     t_trie D;
     t_ptr<algorithms::t_mhs> mhs = options.get_mhs();
 
-    (*mhs)(spectra, D, &f);
-    switch(options.candidate_printer) {
-    case 0: //NORMAL:
+    (* mhs)(spectra, D, & f);
+
+    switch (options.candidate_printer) {
+    case 0: // NORMAL:
         D.print(options.output()) << "\n";
         break;
-    case 1: //PRETTY:
+
+    case 1: // PRETTY:
         D.pretty_print(options.output()) << "\n";
         break;
-    case 2: //LATEX:
+
+    case 2: // LATEX:
         D.latex_print(options.output()) << "\n";
         break;
-
     }
+
     return true;
 }
 
@@ -68,14 +72,15 @@ int main (int argc, char ** argv) {
         t_count_spectra spectra;
         spectra.read(options.input());
 
-        if(options.input().eof())
+        if (options.input().eof())
             break;
+
         if (options.input().fail() || options.input().bad()) {
             std::cerr << "Problem reading spectra" << std::endl;
             return 1;
         }
 
-        if(!do_stuff(spectra, options))
+        if (!do_stuff(spectra, options))
             return 1;
     }
 

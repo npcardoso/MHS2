@@ -122,12 +122,15 @@ std::ostream & t_trie::generic_print (std::ostream & out,
                                       std::string cand_suffix,
                                       std::string cand_separator) const {
     bool first = true;
+
+
     out << prefix;
 
     BOOST_FOREACH(const value_type &d,
                   *this) {
-        if(!first)
+        if (!first)
             out << separator;
+
         d.generic_print(out, cand_prefix, cand_suffix, cand_separator);
         first = false;
     }

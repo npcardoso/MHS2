@@ -221,12 +221,13 @@ bool t_spectra::get_invalid (t_invalid_transactions & ret,
             ret.insert(it.get_transaction());
     }
 
-    assert(((bool)ret.size()) == is_invalid(filter));
+    assert(((bool) ret.size()) == is_invalid(filter));
     return ret.size();
 }
 
 t_ptr<t_spectra_filter> t_spectra::get_minimal_conflicts (const t_spectra_filter * filter) const {
     t_ptr<t_spectra_filter> f;
+
     if (filter)
         f = t_ptr<t_spectra_filter> (new t_spectra_filter(*filter));
     else
@@ -238,6 +239,7 @@ t_ptr<t_spectra_filter> t_spectra::get_minimal_conflicts (const t_spectra_filter
 
 void t_spectra::get_minimal_conflicts (t_spectra_filter & f) const {
     t_trie t;
+
 
     typedef std::pair<t_count, t_transaction_id> t_conflict_size;
     std::vector<t_conflict_size> conflict_sizes;
@@ -271,6 +273,7 @@ void t_spectra::get_minimal_conflicts (t_spectra_filter & f) const {
     BOOST_FOREACH(auto & s,
                   conflict_sizes) {
         t_candidate conflict;
+
 
         while (it.next_component())
             if (is_active(it.get_component(), s.second))

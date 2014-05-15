@@ -59,7 +59,6 @@ t_count t_rank::size () const {
     return rank.size();
 }
 
-
 t_ptr<t_rank> t_similarity::operator () (const structs::t_spectra & spectra,
                                          const structs::t_spectra_filter * filter) const {
     t_spectra_iterator it(spectra.get_component_count(),

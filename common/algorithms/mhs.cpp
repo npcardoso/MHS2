@@ -11,10 +11,9 @@ namespace diagnosis {
 namespace algorithms {
 using namespace diagnosis::structs;
 t_mhs::t_mhs (const t_const_ptr<t_similarity> similarity) {
-    set_cutoff(t_ptr<t_cutoff>());
-    set_parallelization(t_ptr<t_parallelization>());
+    set_cutoff(t_ptr<t_cutoff> ());
+    set_parallelization(t_ptr<t_parallelization> ());
     set_similarity(similarity);
-
 }
 
 void t_mhs::set_similarity (const t_const_ptr<t_similarity> similarity) {
@@ -25,14 +24,14 @@ void t_mhs::set_similarity (const t_const_ptr<t_similarity> similarity) {
 }
 
 void t_mhs::set_cutoff (const t_const_ptr<t_basic_cutoff> cutoff) {
-    if(cutoff.get())
+    if (cutoff.get())
         this->cutoff = cutoff;
     else
         this->cutoff = t_const_ptr<t_basic_cutoff> (new t_basic_cutoff());
 }
 
 void t_mhs::set_parallelization (const t_const_ptr<t_parallelization> parallelization) {
-    if(parallelization.get())
+    if (parallelization.get())
         this->parallelization = parallelization;
     else
         this->parallelization = t_const_ptr<t_parallelization> (new t_parallelization());

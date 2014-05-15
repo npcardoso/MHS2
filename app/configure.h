@@ -9,15 +9,13 @@
 using namespace diagnosis;
 
 
-
-
 class t_diag_options : public t_options {
 public:
     t_diag_options (std::string app_name);
     virtual bool short_opt (int c, char * param);
     virtual std::ostream & print (std::ostream & out) const;
 
-    t_ptr<algorithms::t_mhs> get_mhs() const;
+    t_ptr<algorithms::t_mhs> get_mhs () const;
 public:
     bool print_spectra;
     bool ambiguity_groups;
