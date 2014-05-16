@@ -1,6 +1,5 @@
 #include "spectra.h"
 
-#include "spectra_iterator.h"
 #include "trie.h"
 
 #include <boost/foreach.hpp>
@@ -9,49 +8,6 @@
 
 namespace diagnosis {
 namespace structs {
-using namespace diagnosis::structs;
-// FIXME: !!!!Experimental!!!!
-t_probability t_spectra::get_entropy (const t_spectra_filter * filter) const {
-    t_spectra_iterator it(get_component_count(),
-                          get_transaction_count(),
-                          filter);
-
-    t_count total_components = get_component_count() - (filter ? filter->get_filtered_component_count() : 0);
-    std::vector<t_count> col_ones(total_components, 0);
-
-    t_count total_transactions = get_transaction_count() - (filter ? filter->get_filtered_transaction_count() : 0);
-    std::vector<t_count> row_ones(total_transactions, 0);
-
-
-    // Count activations
-    for (int i = 0; it.next_component(); i++)
-        for (int j = 0; it.next_transaction(); j++)
-            if (get_activations(it.get_component(), it.get_transaction())) {
-                col_ones[i]++;
-                row_ones[j]++;
-            }
-
-
-    // Calculate entropy
-    t_probability entropy = 0;
-
-    for (int i = 0; it.next_component(); i++)
-        for (int j = 0; it.next_transaction(); j++) {
-            t_probability tmp;
-
-            if (get_activations(it.get_component(), it.get_transaction()))
-                tmp = col_ones[i] * row_ones[j];
-            else
-                tmp = (total_transactions - col_ones[i]) * (total_components - row_ones[j]);
-
-            tmp /= (t_probability) (total_components * total_transactions);
-            entropy -= tmp * log(tmp);
-        }
-
-
-    return entropy;
-}
-
 t_probability t_spectra::get_activation_rate (const t_spectra_filter * filter) const {
     t_spectra_iterator it(get_component_count(),
                           get_transaction_count(),
@@ -60,9 +16,9 @@ t_probability t_spectra::get_activation_rate (const t_spectra_filter * filter) c
     t_probability hit_count = 0;
 
 
-    while (it.next_transaction())
-        while (it.next_component())
-            hit_count += get_activations(it.get_component(), it.get_transaction()) ? 1 : 0;
+    while (it.transaction.next())
+        while (it.component.next())
+            hit_count += get_activations(it.component.get(), it.transaction.get()) ? 1 : 0;
 
     return hit_count / (get_component_count(filter) * get_transaction_count(filter));
 }
@@ -86,21 +42,21 @@ t_count t_spectra::get_suspicious_components_count (t_candidate & suspicious,
     if (filter)
         tmp = *filter;
 
-    tmp.filter_all_components(suspicious);
+    tmp.components.filter_all(suspicious);
 
     t_spectra_iterator it(get_component_count(),
                           get_transaction_count(),
                           &tmp);
 
-    while (it.next_transaction()) {
-        if (!is_error(it.get_transaction())) // TODO: Improve performance by maintaining a filter of all failing transactions
+    while (it.transaction.next()) {
+        if (!is_error(it.transaction.get())) // TODO: Improve performance by maintaining a filter of all failing transactions
 
             continue;
 
-        while (it.next_component()) {
-            if (is_active(it.get_component(), it.get_transaction())) {
-                tmp.filter_component(it.get_component());
-                suspicious.insert(it.get_component());
+        while (it.component.next()) {
+            if (is_active(it.component.get(), it.transaction.get())) {
+                tmp.components.filter(it.component.get());
+                suspicious.insert(it.component.get());
             }
         }
     }
@@ -120,15 +76,15 @@ bool t_spectra::is_candidate (const t_candidate & candidate,
                           filter);
 
 
-    while (it.next_transaction()) {
+    while (it.transaction.next()) {
         bool hit = false;
 
-        if (!is_error(it.get_transaction())) // TODO: Improve performance by maintaining a filter of all failing transactions
+        if (!is_error(it.transaction.get())) // TODO: Improve performance by maintaining a filter of all failing transactions
 
             continue;
 
         BOOST_FOREACH(t_component_id c, candidate) {
-            if (get_activations(c, it.get_transaction())) {
+            if (get_activations(c, it.transaction.get())) {
                 hit = true;
                 break;
             }
@@ -165,17 +121,17 @@ bool t_spectra::is_invalid (const t_spectra_filter * filter) const {
                           filter);
 
 
-    while (it.next_transaction()) {
+    while (it.transaction.next()) {
         bool hit = false;
 
-        if (!is_error(it.get_transaction())) // TODO: Improve performance by maintaining a filter of all failing transactions
+        if (!is_error(it.transaction.get())) // TODO: Improve performance by maintaining a filter of all failing transactions
 
             continue;
 
-        it.set_component(0);
+        it.component.set(0);
 
-        while (!hit && it.next_component())
-            hit = is_active(it.get_component(), it.get_transaction());
+        while (!hit && it.component.next())
+            hit = is_active(it.component.get(), it.transaction.get());
 
         if (!hit)
             return true;
@@ -191,8 +147,8 @@ bool t_spectra::is_all_pass (const t_spectra_filter * filter) const {
 
 
     // TODO: Improve performance by maintaining a filter of all failing transactions
-    while (it.next_transaction())
-        if (is_error(it.get_transaction()))
+    while (it.transaction.next())
+        if (is_error(it.transaction.get()))
             return false;
 
     return true;
@@ -207,20 +163,20 @@ bool t_spectra::get_invalid (t_invalid_transactions & ret,
 
     ret.clear();
 
-    while (it.next_transaction()) {
+    while (it.transaction.next()) {
         bool hit = false;
 
-        if (!is_error(it.get_transaction())) // TODO: Improve performance by maintaining a filter of all failing transactions
+        if (!is_error(it.transaction.get())) // TODO: Improve performance by maintaining a filter of all failing transactions
 
             continue;
 
-        it.set_component(0);
+        it.component.set(0);
 
-        while (!hit && it.next_component())
-            hit = is_active(it.get_component(), it.get_transaction());
+        while (!hit && it.component.next())
+            hit = is_active(it.component.get(), it.transaction.get());
 
         if (!hit)
-            ret.insert(it.get_transaction());
+            ret.insert(it.transaction.get());
     }
 
     assert(((bool) ret.size()) == is_invalid(filter));
@@ -252,21 +208,21 @@ void t_spectra::get_minimal_conflicts (t_spectra_filter & f) const {
 
     // Filter non-error transactions
     // TODO: Move to a separate function
-    while (it.next_transaction()) {
+    while (it.transaction.next()) {
         t_conflict_size s;
         s.first = 0;
-        s.second = it.get_transaction();
+        s.second = it.transaction.get();
 
-        while (it.next_component()) {
-            if (is_active(it.get_component(),
-                          it.get_transaction()))
+        while (it.component.next()) {
+            if (is_active(it.component.get(),
+                          it.transaction.get()))
                 s.first++;
         }
 
         conflict_sizes.push_back(s);
 
-        if (!is_error(it.get_transaction()))
-            f.filter_transaction(it.get_transaction());
+        if (!is_error(it.transaction.get()))
+            f.transactions.filter(it.transaction.get());
     }
 
     sort(conflict_sizes.begin(), conflict_sizes.end());
@@ -277,25 +233,25 @@ void t_spectra::get_minimal_conflicts (t_spectra_filter & f) const {
         t_candidate conflict;
 
 
-        while (it.next_component())
-            if (is_active(it.get_component(), s.second))
-                conflict.insert(it.get_component());
+        while (it.component.next())
+            if (is_active(it.component.get(), s.second))
+                conflict.insert(it.component.get());
 
         if (!t.add(conflict))
-            f.filter_transaction(s.second);
+            f.transactions.filter(s.second);
     }
 
     // Filter irrelevant components
     // TODO: Move to a separate function
-    while (it.next_component()) {
+    while (it.component.next()) {
         bool hit = false;
-        it.set_transaction(0);
+        it.transaction.set(0);
 
-        while (!hit && it.next_transaction())
-            hit = is_active(it.get_component(), it.get_transaction());
+        while (!hit && it.transaction.next())
+            hit = is_active(it.component.get(), it.transaction.get());
 
         if (!hit)
-            f.filter_component(it.get_component());
+            f.components.filter(it.component.get());
     }
 }
 
@@ -309,8 +265,8 @@ void t_spectra::set_transaction_count (t_count transaction_count) {
 
 std::ostream & t_spectra::print (std::ostream & out,
                                  const t_spectra_filter * filter) const {
-    assert(filter ? (filter->get_last_component() <= get_component_count()) : true);
-    assert(filter ? (filter->get_last_transaction() <= get_transaction_count()) : true);
+    assert(filter ? (filter->components.get_last() <= get_component_count()) : true);
+    assert(filter ? (filter->transactions.get_last() <= get_transaction_count()) : true);
 
     t_spectra_iterator it(get_component_count(),
                           get_transaction_count(),
@@ -321,41 +277,41 @@ std::ostream & t_spectra::print (std::ostream & out,
 
     t_count max_count = 0;
 
-    while (it.next_transaction())
-        while (it.next_component())
-            max_count = std::max(max_count, get_activations(it.get_component(), it.get_transaction()));
+    while (it.transaction.next())
+        while (it.component.next())
+            max_count = std::max(max_count, get_activations(it.component.get(), it.transaction.get()));
 
     width_comp = std::max(width_comp, (t_count) log10(max_count)) + 2;
 
     out << std::setw(width_tran + 1) << "|";
 
-    while (it.next_component())
-        out << std::setw(width_comp) << it.get_component() << " |";
+    while (it.component.next())
+        out << std::setw(width_comp) << it.component.get() << " |";
 
     out << "|Err (f)\n";
 
     char fill = out.fill('-');
     out << std::setw(width_tran + 1) << "+";
 
-    while (it.next_component())
+    while (it.component.next())
         out << std::setw(width_comp + 2) << "+";
 
     out << "+-------\n";
     out.fill(fill);
 
-    while (it.next_transaction()) {
-        out << std::setw(width_tran) << std::left << it.get_transaction() << std::setw(0) << "|" << std::right;
+    while (it.transaction.next()) {
+        out << std::setw(width_tran) << std::left << it.transaction.get() << std::setw(0) << "|" << std::right;
 
-        while (it.next_component())
-            out << std::setw(width_comp) << get_activations(it.get_component(), it.get_transaction()) << " |";
+        while (it.component.next())
+            out << std::setw(width_comp) << get_activations(it.component.get(), it.transaction.get()) << " |";
 
-        out << "| " << is_error(it.get_transaction()) << "  (" << get_error(it.get_transaction()) << ")\n";
+        out << "| " << is_error(it.transaction.get()) << "  (" << get_error(it.transaction.get()) << ")\n";
     }
 
     fill = out.fill('-');
     out << std::setw(width_tran + 1) << "+";
 
-    while (it.next_component())
+    while (it.component.next())
         out << std::setw(width_comp + 2) << "+";
 
     out << "+-------\n";
@@ -367,19 +323,19 @@ std::ostream & t_spectra::print (std::ostream & out,
 
 std::ostream & t_spectra::write (std::ostream & out,
                                  const t_spectra_filter * filter) const {
-    assert(filter ? (filter->get_last_component() <= get_component_count()) : true);
-    assert(filter ? (filter->get_last_transaction() <= get_transaction_count()) : true);
+    assert(filter ? (filter->components.get_last() <= get_component_count()) : true);
+    assert(filter ? (filter->transactions.get_last() <= get_transaction_count()) : true);
 
     t_spectra_iterator it(get_component_count(),
                           get_transaction_count(),
                           filter);
     out << get_component_count(filter) << " " << get_transaction_count(filter) << "\n";
 
-    while (it.next_transaction()) {
-        while (it.next_component())
-            out << get_activations(it.get_component(), it.get_transaction()) << " ";
+    while (it.transaction.next()) {
+        while (it.component.next())
+            out << get_activations(it.component.get(), it.transaction.get()) << " ";
 
-        out << " " << get_error(it.get_transaction()) << "\n";
+        out << " " << get_error(it.transaction.get()) << "\n";
     }
 
     return out;
@@ -405,41 +361,32 @@ t_count t_basic_spectra::get_error_count (const t_spectra_filter * filter) const
     // FIXME: Improve performance
     t_count total_errors = 0;
 
+    t_spectra_iterator it(get_component_count(),
+                          get_transaction_count(),
+                          filter);
 
-    if (filter) {
-        t_id i = filter->next_transaction(0);
 
-        while (i < get_transaction_count()) {
-            if (is_error(i))
-                total_errors++;
-
-            i = filter->next_transaction(i);
-        }
-    }
-    else {
-        for (t_id i = 1; i <= get_transaction_count(); i++)
-            if (is_error(i)) // TODO: Improve performance by maintaining a filter of all failing transactions
-
-                total_errors++;
-    }
+    while (it.transaction.next())
+        if (is_error(it.transaction.get()))
+            total_errors++;
 
     return total_errors;
 }
 
 t_count t_basic_spectra::get_component_count (const t_spectra_filter * filter) const {
-    assert(!filter || filter->get_last_component() <= component_count);
+    assert(!filter || filter->components.get_last() <= component_count);
 
     if (filter)
-        return component_count - filter->get_filtered_component_count();
+        return component_count - filter->components.get_filtered_count();
 
     return component_count;
 }
 
 t_count t_basic_spectra::get_transaction_count (const t_spectra_filter * filter) const {
-    assert(!filter || filter->get_last_transaction() <= transaction_count);
+    assert(!filter || filter->transactions.get_last() <= transaction_count);
 
     if (filter)
-        return transaction_count - filter->get_filtered_transaction_count();
+        return transaction_count - filter->transactions.get_filtered_count();
 
     return transaction_count;
 }

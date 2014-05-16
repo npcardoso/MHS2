@@ -5,7 +5,7 @@
 #include "structs/candidate.h"
 #include "utils/boost.h"
 
-#include <boost/random/mersenne_twister.hpp>
+#include <random>
 
 namespace diagnosis {
 namespace algorithms {
@@ -39,7 +39,7 @@ public:
 
     virtual bool skip (t_id rank_pos) const;
 private:
-    t_ptr<boost::mt19937> gen;
+    t_ptr<std::mt19937> gen;
 };
 
 class t_parallelization_stride : public t_basic_parallelization {

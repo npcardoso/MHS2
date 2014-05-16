@@ -44,14 +44,14 @@ t_ambiguity_groups::t_ambiguity_groups (const t_spectra & spectra,
     component_count = spectra.get_component_count();
     transaction_count = spectra.get_transaction_count();
 
-    while (it.next_component()) {
+    while (it.component.next()) {
         sha1 s;
-        t_component_id c_id = it.get_component();
+        t_component_id c_id = it.component.get();
 
         // Calculate SHA1
-        while (it.next_transaction()) {
+        while (it.transaction.next()) {
             t_count count = spectra.get_activations(c_id,
-                                                    it.get_transaction());
+                                                    it.transaction.get());
             s.process_bytes(&count, sizeof(t_count));
         }
 
@@ -60,7 +60,7 @@ t_ambiguity_groups::t_ambiguity_groups (const t_spectra & spectra,
 
         // Check if is unique
         if (shas.count(hash)) {
-            _filter.filter_component(c_id);
+            _filter.components.filter(c_id);
             groups[shas[hash]].insert(c_id);
         }
         else
@@ -99,7 +99,7 @@ std::ostream & std::operator << (std::ostream & out, const t_ambiguity_groups & 
 
 
     while (true) {
-        next_group = f.next_component(next_group);
+        next_group = f.components.next(next_group);
 
         if (next_group > ag.get_component_count())
             break;

@@ -1,7 +1,5 @@
 #include "similarity.h"
 
-#include "structs/spectra_iterator.h"
-
 #include <boost/foreach.hpp>
 
 #include <cstring>
@@ -69,11 +67,12 @@ t_ptr<t_rank> t_similarity::operator () (const structs::t_spectra & spectra,
     t_ptr<t_rank> rank(new t_rank(spectra.get_component_count(filter)));
     t_id i = 0;
 
-    while (it.next_component()) {
+    while (it.component.next()) {
         t_score score = (* this)(spectra,
-                                 it.get_component(),
+                                 it.component.get(),
                                  filter);
-        rank->set(i++, score, it.get_component());
+
+        rank->set(i++, score, it.component.get());
     }
 
     return rank;
@@ -91,9 +90,9 @@ t_score t_similarity::operator () (const structs::t_spectra & spectra,
 
     memset(n, 0, sizeof(t_count) * 4);
 
-    while (it.next_transaction()) {
-        bool activity = spectra.is_active(comp, it.get_transaction());
-        bool error = spectra.is_error(it.get_transaction());
+    while (it.transaction.next()) {
+        bool activity = spectra.is_active(comp, it.transaction.get());
+        bool error = spectra.is_error(it.transaction.get());
         n[activity ? 1 : 0][error ? 1 : 0]++;
     }
 
