@@ -78,7 +78,7 @@ problems, the elements of `S` must be encoded as failing transactions.
 
 ### More information
 
-The minimal hitting set algorithm MHS2 was first described in scientific paper [1], and it is an improvement of the algorithm described in [3].
+The minimal hitting set algorithm MHS2 was first described in [1], and it is an improvement of the algorithm described in [3].
 
 We are currently advancing its capabilities further, and we expect to report the new changes in a journal paper soon.
 
