@@ -265,8 +265,8 @@ void t_spectra::set_transaction_count (t_count transaction_count) {
 
 std::ostream & t_spectra::print (std::ostream & out,
                                  const t_spectra_filter * filter) const {
-    assert(filter ? (filter->components.get_last() <= get_component_count()) : true);
-    assert(filter ? (filter->transactions.get_last() <= get_transaction_count()) : true);
+    assert(filter ? (filter->components.size() <= get_component_count()) : true);
+    assert(filter ? (filter->transactions.size() <= get_transaction_count()) : true);
 
     t_spectra_iterator it(get_component_count(),
                           get_transaction_count(),
@@ -323,8 +323,8 @@ std::ostream & t_spectra::print (std::ostream & out,
 
 std::ostream & t_spectra::write (std::ostream & out,
                                  const t_spectra_filter * filter) const {
-    assert(filter ? (filter->components.get_last() <= get_component_count()) : true);
-    assert(filter ? (filter->transactions.get_last() <= get_transaction_count()) : true);
+    assert(filter ? (filter->components.size() <= get_component_count()) : true);
+    assert(filter ? (filter->transactions.size() <= get_transaction_count()) : true);
 
     t_spectra_iterator it(get_component_count(),
                           get_transaction_count(),
@@ -374,7 +374,7 @@ t_count t_basic_spectra::get_error_count (const t_spectra_filter * filter) const
 }
 
 t_count t_basic_spectra::get_component_count (const t_spectra_filter * filter) const {
-    assert(!filter || filter->components.get_last() <= component_count);
+    assert(!filter || filter->components.size() <= component_count);
 
     if (filter)
         return component_count - filter->components.get_filtered_count();
@@ -383,7 +383,7 @@ t_count t_basic_spectra::get_component_count (const t_spectra_filter * filter) c
 }
 
 t_count t_basic_spectra::get_transaction_count (const t_spectra_filter * filter) const {
-    assert(!filter || filter->transactions.get_last() <= transaction_count);
+    assert(!filter || filter->transactions.size() <= transaction_count);
 
     if (filter)
         return transaction_count - filter->transactions.get_filtered_count();
