@@ -84,20 +84,23 @@ We are currently advancing its capabilities further, and we expect to report the
 
 ### References 
 
+[[1]](http://link.springer.com/chapter/10.1007/978-3-642-39955-8_3)
 ```
-[1] Nuno Cardoso and Rui Abreu. "MHS2: A Map-Reduce Heuristic-Driven Minimal Hitting Set Search Algorithm." 
+Nuno Cardoso and Rui Abreu. "MHS2: A Map-Reduce Heuristic-Driven Minimal Hitting Set Search Algorithm." 
 In Multicore Software Engineering, Performance, and Tools (MUSEPAT'13). 
 Springer Berlin Heidelberg, 2013. 25-36.
 ```
 
+[[2]](http://ieeexplore.ieee.org/?arnumber=5431781)
 ```
-[2] Rui Abreu, Peter Zoeteweij, and Arjan JC Van Gemund. "Spectrum-based multiple fault localization." 
+Rui Abreu, Peter Zoeteweij, and Arjan JC Van Gemund. "Spectrum-based multiple fault localization." 
 In Proceedings of the 24th IEEE/ACM International Conference on Automated Software Engineering (ASE'09).  
 IEEE Computer Society, 2009.
 ```
 
+[[3]](http://aaai.org/ocs/index.php/SARA/SARA09/paper/view/834)
 ```
-[3] Rui Abreu and Arjan JC van Gemund. "A Low-Cost Approximate Minimal Hitting Set Algorithm and its Application to Model-Based Diagnosis." 
+Rui Abreu and Arjan JC van Gemund. "A Low-Cost Approximate Minimal Hitting Set Algorithm and its Application to Model-Based Diagnosis." 
 In Proceedings of the 8th Symposium on Abstraction, Reformulation and Approximation (SARA'09).
 AAAI Press, 2009.
 ```
@@ -217,12 +220,12 @@ Returning to the example, running the algorithm with no ambiguity
 removal yields 4 candidates.
 
 ```
-$ echo "4 2 1 1 0 0 x 0 0 1 1 x" | ./build/mhs2
-1 3 0
-1 4 0
-2 3 0
-2 4 0
-0 0
+$ echo "4 2 1 1 0 0 x 0 0 1 1 x" | ./build/mhs2  
+1 3 0  
+1 4 0  
+2 3 0  
+2 4 0  
+0 0  
 ```
 
 Running the algorithm with ambiguity removal only 1 candidate is
@@ -231,12 +234,12 @@ applying all possible substitutions encoded in the ambiguity group
 information.
 
 ```
-$ echo "4 2 1 1 0 0 x 0 0 1 1 x" | ./build/mhs2 -a
-g(1) = s(2)
-g(3) = s(4)
-
-1 3 0
-0 0
+$ echo "4 2 1 1 0 0 x 0 0 1 1 x" | ./build/mhs2 -a  
+g(1) = s(2)  
+g(3) = s(4)  
+  
+1 3 0  
+0 0  
 ```
 
 An ambiguity group is encoded as `g(grp_id) = s(a, b, ..., k)`, where
@@ -246,6 +249,21 @@ k` are the ids of the remaining components.
 ### Conflict Redundancy Removal
 
 ### Cutoffs
+
+Being a NP-hard problem, trade-offs must be made in order to handle
+large problems.
+
+- `-t, --time` limits the execution time of the algorithm.
+- `-D, --candidates` limits the number of computed candidates.
+- `-d, --cardinality` limits the maximum size of the computed candidates.
+- `-l, --lambda` sets the amount of search tree exploration (`0`: minimum, `1`: full exploration).
+
+The default parameters should guarantee both soundness (i.e., all
+candidates are minimal) and completeness (i.e., all minimal candidates
+are found).
+By using any of the cutoffs, the completeness guarantee
+is lost.  All cutoffs except for `-d` will also break the soundness
+guarantee.
 
 ## Benchmarking
 
