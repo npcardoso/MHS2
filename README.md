@@ -110,6 +110,8 @@ The dependencies for this project are:
 * [boost](http://www.boost.org/)
 * [scons](http://www.scons.org/)
 
+To build just type `scons` and all should be fine.
+
 In order to build with boost in a non-default place, create a
 `.scons.conf` file in the project root defining the following
 variables:
@@ -117,7 +119,9 @@ variables:
 * `LIBPATH`: path to `lib` directory (e.g., `LIBPATH="/usr/local/lib"`)
 * `CPPPATH`: path to `include` directory (e.g., `LIBPATH="/usr/local/lib"`)
 
-To build just type `scons` and all should be fine.
+In order to build with unit tests and assertions, create a
+`.scons.conf` file in the project root defining `debug=True`.
+Use `run_tests.sh` to run the unit tests.
 
 ## Running
 
