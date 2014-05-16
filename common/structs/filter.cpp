@@ -145,9 +145,7 @@ t_id t_filter_iterator::get () const {
 
 void t_filter_iterator::set (t_id id) {
     assert(id <= max);
-    assert(!filter);
-    assert(!id);
-    assert(filter ? (!filter->is_filtered(id)) : true);
+    assert((filter && id) ? (!filter->is_filtered(id)) : true);
     this->id = id;
 }
 
