@@ -20,15 +20,16 @@ bool do_stuff (const t_spectra & spectra, t_diag_options & options) {
         return false;
     }
 
+    // Use only minimal conflicts
+    if (options.conflict_ambiguity)
+        spectra.get_minimal_conflicts(f);
+
     // Check ambiguity groups
     if (options.ambiguity_groups)
         ambiguity_groups = t_ambiguity_groups(spectra);
 
-    f = ambiguity_groups.filter();
-
-    // Use only minimal conflicts
-    if (options.conflict_ambiguity)
-        spectra.get_minimal_conflicts(f);
+    f.components.filter(ambiguity_groups.filter().components);
+    f.transactions.filter(ambiguity_groups.filter().transactions);
 
     if (options.print_spectra)
         spectra.print(options.output(), &f);
