@@ -1,25 +1,24 @@
 # MHS2
 
-MHS2 [1] is a heuristic-based approximation algorithm for solving the
+MHS2 [[1]](#ref1) is a heuristic-based approximation algorithm for solving the
 minimal hitting set/set cover problem.
 
 The minimal hitting set problem can be formulated as follows:
 
-```
 Given a set of elements `U = {1, 2, ..., M}` (called the universe)
 and a collection `S` of `N` non-empty sets whose union is equal to the
 universe, find all sets `d` such that:
+
 - The intersection of `d` with any element of `S` is not empty.
 - The intersection of any proper subset of `d` with some element of
   `S` is empty.
-```
 
 
 ## Introduction
 
 This algorithm was primarily designed for solving the candidate
 generation problem in scope of spectrum-based reasoning to fault 
-localization (SFL) [2].
+localization (SFL) [[2]](#ref2).
 
 ### Terminology
 * SFL approaches work by abstracting the run-time behavior of the
@@ -68,6 +67,7 @@ to other domains which require the calculation of minimal hitting sets.
 In practice, the algorithm calculates the minimal candidates for the
 conflict collection encoded in the spectra.
 Mapping the terminology presented above to the problem statement presented on top:
+
 - The set of all components is equivalent to the universe `U`.
 - The set of all conflicts (i.e., the failing transactions) is
   equivalent to the collection `S`.
@@ -78,27 +78,27 @@ problems, the elements of `S` must be encoded as failing transactions.
 
 ### More information
 
-The minimal hitting set algorithm MHS2 was first described in [1], and it is an improvement of the algorithm described in [3].
+The minimal hitting set algorithm MHS2 was first described in [[1]](#ref1), and it is an improvement of the algorithm described in [[3]](#ref3).
 
 We are currently advancing its capabilities further, and we expect to report the new changes in a journal paper soon.
 
 ### References 
 
-[[1]](http://link.springer.com/chapter/10.1007/978-3-642-39955-8_3)
+<a id="ref1"></a>[[1]](http://link.springer.com/chapter/10.1007/978-3-642-39955-8_3)
 ```
 Nuno Cardoso and Rui Abreu. "MHS2: A Map-Reduce Heuristic-Driven Minimal Hitting Set Search Algorithm." 
 In Multicore Software Engineering, Performance, and Tools (MUSEPAT'13). 
 Springer Berlin Heidelberg, 2013. 25-36.
 ```
 
-[[2]](http://ieeexplore.ieee.org/?arnumber=5431781)
+<a id="ref2"></a>[[2]](http://ieeexplore.ieee.org/?arnumber=5431781)
 ```
 Rui Abreu, Peter Zoeteweij, and Arjan JC Van Gemund. "Spectrum-based multiple fault localization." 
-In Proceedings of the 24th IEEE/ACM International Conference on Automated Software Engineering (ASE'09).  
+In Proceedings of the 24th IEEE/ACM International Conference on Automated Software Engineering (ASE'09).
 IEEE Computer Society, 2009.
 ```
 
-[[3]](http://aaai.org/ocs/index.php/SARA/SARA09/paper/view/834)
+<a id="ref3"></a>[[3]](http://aaai.org/ocs/index.php/SARA/SARA09/paper/view/834)
 ```
 Rui Abreu and Arjan JC van Gemund. "A Low-Cost Approximate Minimal Hitting Set Algorithm and its Application to Model-Based Diagnosis." 
 In Proceedings of the 8th Symposium on Abstraction, Reformulation and Approximation (SARA'09).
