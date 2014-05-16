@@ -19,7 +19,6 @@ std::istream & operator >> (std::istream & in, t_trie & trie) {
         trie.add(c);
     }
 
-    in.clear();
     return in;
 }
 
