@@ -6,7 +6,7 @@ env = Environment()
 ## scons output colorizer
 try:
     from colorizer import colorizer
-#    col = colorizer()
+    col = colorizer()
 except:
     pass
 
