@@ -4,6 +4,8 @@
 #include "types.h"
 #include "structs/candidate.h"
 
+#include <vector>
+
 namespace diagnosis {
 namespace structs {
 class t_filter {
