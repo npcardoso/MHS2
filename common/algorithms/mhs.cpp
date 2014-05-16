@@ -73,7 +73,7 @@ void t_mhs::calculate (const t_spectra & spectra,
         /* Remove components that will not generate new candidates */
         while (remaining_components) {
             if (rank->get_score(remaining_components - 1) < EPSILON) {
-                filter.filter_component(rank->get_component(remaining_components - 1));
+                filter.components.filter(rank->get_component(remaining_components - 1));
                 remaining_components--;
             }
             else
@@ -90,13 +90,13 @@ void t_mhs::calculate (const t_spectra & spectra,
 
             /* Filter */
             if (parallelization->skip(i, candidate)) {
-                filter.filter_component(component);
+                filter.components.filter(component);
                 continue;
             }
 
             /* Strip component from spectra */
             t_spectra_filter strip_filter = filter;
-            filter.filter_component(component);
+            filter.components.filter(component);
             strip_filter.strip(component, spectra);
 
             /* Insert the component into the candidate */
@@ -227,9 +227,9 @@ void t_mhs_parallel::operator () (const structs::t_spectra & spectra,
         t.join();
     }
 
-    BOOST_FOREACH(t_args & a,
-                  args) {
-        pool.add(a.D);
+    while (args.size()) {
+        pool.add(args.front().D);
+        args.pop_front();
     }
 
     pool.trie(D);

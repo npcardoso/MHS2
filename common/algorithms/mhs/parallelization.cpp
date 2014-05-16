@@ -34,7 +34,7 @@ t_parallelization_random::t_parallelization_random (t_count self,
                                                     t_count depth,
                                                     unsigned int seed) : t_basic_parallelization(self,
                                                                                                  division_count,
-                                                                                                 depth), gen(new boost::mt19937(seed)) {}
+                                                                                                 depth), gen(new std::mt19937(seed)) {}
 
 bool t_parallelization_random::skip (t_id rank_pos) const {
     boost::random::uniform_int_distribution<t_component_id> distribution(0, division_count - 1);
