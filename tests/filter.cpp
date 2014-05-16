@@ -79,7 +79,7 @@ BOOST_AUTO_TEST_CASE(unfilter_id) {
     t_filter f1, f2;
 
 
-    randomize(f1, 1000, 0, 10000);
+    randomize(f1, 1000, 1, 10001);
 
     for (t_id i = 0; i < 100; i++) {
         t_id id = rand(gen);
@@ -108,7 +108,7 @@ BOOST_AUTO_TEST_CASE(next) {
     t_filter f1;
 
 
-    randomize(f1, 1000, 0, 10000);
+    randomize(f1, 1000, 1, 10001);
 
 
     BOOST_CHECK(f1.get_filtered_count() == 1000);
@@ -127,7 +127,7 @@ BOOST_AUTO_TEST_CASE(next_filtered) {
     t_filter f1;
 
 
-    randomize(f1, 1000, 0, 10000);
+    randomize(f1, 1000, 1, 10001);
 
 
     BOOST_CHECK(f1.get_filtered_count() == 1000);
@@ -149,6 +149,11 @@ BOOST_AUTO_TEST_CASE(filter_all) {
     t_filter f1;
     t_candidate d;
 
+
+    f1.filter_all(d);
+
+    for (t_count i = 1; i <= f1.size(); i++)
+        BOOST_CHECK(!f1.is_filtered(i));
 
     for (t_count i = 0; i < 200; i++) {
         d.insert(rand(gen));
@@ -173,6 +178,13 @@ BOOST_AUTO_TEST_CASE(filter_all_but) {
     t_candidate d;
 
 
+    f1.filter_all_but(d);
+
+    for (t_count i = 1; i <= f1.size(); i++)
+        BOOST_CHECK(f1.is_filtered(i));
+
+    f1 = t_filter();
+
     for (t_count i = 0; i < 200; i++) {
         d.insert(rand(gen));
 
@@ -193,8 +205,8 @@ BOOST_AUTO_TEST_CASE(filter_filter) {
     t_filter f1, f2, f3;
 
 
-    randomize(f1, 1000, 0, 10000);
-    randomize(f2, 1000, 0, 10000);
+    randomize(f1, 1000, 1, 10001);
+    randomize(f2, 1000, 1, 10001);
 
     f3 = f2;
 
@@ -208,8 +220,8 @@ BOOST_AUTO_TEST_CASE(unfilter_filter) {
     t_filter f1, f2, f3;
 
 
-    randomize(f1, 1000, 0, 2000);
-    randomize(f2, 1000, 0, 2000);
+    randomize(f1, 1000, 1, 2001);
+    randomize(f2, 1000, 1, 2001);
 
     f3 = f2;
 
@@ -217,6 +229,66 @@ BOOST_AUTO_TEST_CASE(unfilter_filter) {
 
     for (t_count i = 1; i <= f3.size(); i++)
         BOOST_CHECK(f3.is_filtered(i) == (!f1.is_filtered(i) && f2.is_filtered(i)));
+}
+
+BOOST_AUTO_TEST_CASE(filter_iterator_no_filter) {
+    t_filter_iterator it(100);
+
+
+    t_id id = 0;
+
+
+    while (it.next())
+        BOOST_CHECK(++id == it.get());
+
+    BOOST_CHECK(id == 100);
+    BOOST_CHECK(it.get() == 0);
+
+    for (id = 0; id < 100; id++) {
+        it.set(id);
+
+        while (it.next())
+            BOOST_CHECK(++id == it.get());
+
+        BOOST_CHECK(id == 100);
+        BOOST_CHECK(it.get() == 0);
+    }
+}
+
+BOOST_AUTO_TEST_CASE(filter_iterator) {
+    t_filter f1;
+
+
+    randomize(f1, 25, 1, 99);
+
+    t_filter_iterator it(100, &f1);
+
+
+    t_id id = 0;
+
+    while (it.next()) {
+        BOOST_CHECK(!f1.is_filtered(it.get()));
+
+        while (++id != it.get())
+            BOOST_CHECK(f1.is_filtered(id));
+    }
+
+    BOOST_CHECK(id == 100);
+    BOOST_CHECK(it.get() == 0);
+
+    for (id = 0; id < 100; id++) {
+        it.set(id);
+
+        while (it.next()) {
+            BOOST_CHECK(!f1.is_filtered(it.get()));
+
+            while (++id != it.get())
+                BOOST_CHECK(f1.is_filtered(id));
+        }
+
+        BOOST_CHECK(id == 100);
+        BOOST_CHECK(it.get() == 0);
+    }
 }
 
 
