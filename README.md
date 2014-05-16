@@ -1,6 +1,6 @@
 # MHS2
 
-MHS2 is a heuristic-based approximation algorithm for solving the
+MHS2 [1] is a heuristic-based approximation algorithm for solving the
 minimal hitting set/set cover problem.
 
 The minimal hitting set problem can be formulated as follows:
@@ -18,8 +18,8 @@ universe, find all sets `d` such that:
 ## Introduction
 
 This algorithm was primarily designed for solving the candidate
-generation problem in scope of spectrum-based fault localization
-(SFL).
+generation problem in scope of spectrum-based reasoning to fault 
+localization (SFL) [2].
 
 ### Terminology
 * SFL approaches work by abstracting the run-time behavior of the
@@ -62,9 +62,8 @@ From the 5 candidates only two are minimal: `{c1}`, `{c2,c3}`.
 
 ### Application to other domains
 
-Even though designed for SFL applications, this algorithm should be
-applicable to other domains which require the calculation of minimal
-hitting sets.
+Even though designed for SFL applications, this algorithm is also well suited
+to other domains which require the calculation of minimal hitting sets.
 
 In practice, the algorithm calculates the minimal candidates for the
 conflict collection encoded in the spectra.
@@ -79,22 +78,29 @@ problems, the elements of `S` must be encoded as failing transactions.
 
 ### More information
 
-The minimal hitting set algorithm was described in:
+The minimal hitting set algorithm MHS2 was first described in [1], and it is an improvement of the algorithm described in [3].
+
+We are currently advancing its capabilities further, and we expect to report the new changes in a journal paper soon.
+
+### References 
 
 ```
-MHS2: A Map-Reduce heuristic-driven minimal hitting set search algorithm  
-Rui Cardoso, Nuno and Abreu  
-International Conference on Multicore Software Engineering, Performance, and Tools (MUSEPAT) 2013  
+[1] Nuno Cardoso and Rui Abreu. "MHS2: A Map-Reduce Heuristic-Driven Minimal Hitting Set Search Algorithm." 
+In Multicore Software Engineering, Performance, and Tools (MUSEPAT'13). 
+Springer Berlin Heidelberg, 2013. 25-36.
 ```
 
-and consisted in the improvement of the algorithm described in:
-
 ```
-A low-cost approximate minimal hitting set algorithm and its application to model-based diagnosis  
-R Abreu, AJC van Gemund  
-Abstraction, Reformulation, and Approximation (SARA) 2009  
+[2] Rui Abreu, Peter Zoeteweij, and Arjan JC Van Gemund. "Spectrum-based multiple fault localization." 
+In Proceedings of the 24th IEEE/ACM International Conference on Automated Software Engineering (ASE'09).  
+IEEE Computer Society, 2009.
 ```
 
+```
+[3] Rui Abreu and Arjan JC van Gemund. "A Low-Cost Approximate Minimal Hitting Set Algorithm and its Application to Model-Based Diagnosis." 
+In Proceedings of the 8th Symposium on Abstraction, Reformulation and Approximation (SARA'09).
+AAAI Press, 2009.
+```
 
 ## Building
 
