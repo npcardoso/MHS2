@@ -15,7 +15,7 @@ class t_trie_iterator;
 
 
 #define TRIE_NORMAL_PREFIX ""
-#define TRIE_NORMAL_SUFFIX "\n0 0"
+#define TRIE_NORMAL_SUFFIX "\n0"
 #define TRIE_NORMAL_SEP "\n"
 #define TRIE_PRETTY_PREFIX "{"
 #define TRIE_PRETTY_SUFFIX "}"
