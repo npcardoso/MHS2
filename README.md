@@ -85,15 +85,21 @@ We are currently advancing its capabilities further, and we expect to report the
 ### References 
 
 ```
-[1] Nuno Cardoso and Rui Abreu. "MHS2: A Map-Reduce Heuristic-Driven Minimal Hitting Set Search Algorithm." Multicore Software Engineering, Performance, and Tools. Springer Berlin Heidelberg, 2013. 25-36.
+[1] Nuno Cardoso and Rui Abreu. "MHS2: A Map-Reduce Heuristic-Driven Minimal Hitting Set Search Algorithm." 
+In Multicore Software Engineering, Performance, and Tools (MUSEPAT'13). 
+Springer Berlin Heidelberg, 2013. 25-36.
 ```
 
 ```
-[2] Rui Abreu, Peter Zoeteweij, and Arjan JC Van Gemund. "Spectrum-based multiple fault localization." Automated Software Engineering, 2009. ASE'09. 24th IEEE/ACM International Conference on. IEEE, 2009.
+[2] Rui Abreu, Peter Zoeteweij, and Arjan JC Van Gemund. "Spectrum-based multiple fault localization." 
+In Proceedings of the 24th IEEE/ACM International Conference on Automated Software Engineering (ASE'09).  
+IEEE Computer Society, 2009.
 ```
 
 ```
-[3] Rui Abreu and Arjan JC van Gemund. "A Low-Cost Approximate Minimal Hitting Set Algorithm and its Application to Model-Based Diagnosis." SARA. 2009.
+[3] Rui Abreu and Arjan JC van Gemund. "A Low-Cost Approximate Minimal Hitting Set Algorithm and its Application to Model-Based Diagnosis." 
+In Proceedings of the 8th Symposium on Abstraction, Reformulation and Approximation (SARA'09).
+AAAI Press, 2009.
 ```
 
 ## Building
