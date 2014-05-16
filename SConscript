@@ -12,8 +12,12 @@ def find_sources(root, depth=4):
     return sources
 
 
-sources = find_sources("app") + find_sources("common")
-print [x.abspath for x in sources]
+common = find_sources("common")
+
 env.Append(CPPPATH = "/common",
            LINKFLAGS = " -lboost_system")
-obj = env.Program(target = "mhs2", source = sources)
+obj = env.Program(target = "mhs2", source = find_sources("app") + common)
+
+if env['debug']:
+    print "Compiling tests"
+    obj = env.Program(target = "test", source = find_sources("tests") + common)
