@@ -120,7 +120,7 @@ In order to build with boost in a non-default place, create a
 variables:
 
 * `LIBPATH`: path to `lib` directory (e.g., `LIBPATH="/usr/local/lib"`)
-* `CPPPATH`: path to `include` directory (e.g., `CPPPATH="/usr/local/lib"`)
+* `CPPPATH`: path to `include` directory (e.g., `CPPPATH="/usr/local/include"`)
 
 In order to build with unit tests and assertions, create a
 `.scons.conf` file in the project root defining `debug=True`.

@@ -14,7 +14,7 @@ def find_sources(root, depth=4):
 
 common = find_sources("common")
 
-env.Append(CPPPATH = "/common",
+env.Append(CPPPATH = ["common"],
            LINKFLAGS = " -lboost_system")
 obj = env.Program(target = "mhs2", source = find_sources("app") + common)
 
