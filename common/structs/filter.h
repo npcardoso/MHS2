@@ -14,25 +14,24 @@ public:
 
     t_id next_filtered (t_id id) const;
 
-    t_id get_last () const;
+    t_id size () const;
 
     t_id get_filtered_count () const;
 
-    bool is_filtered (t_id component) const;
-    bool is_transaction (t_transaction_id transaction) const;
+    bool is_filtered (t_id id) const;
 
     void filter (const t_filter & filter);
-    void filter (t_id component);
+    void filter (t_id id);
     void filter_all (const t_candidate & candidate);
     void filter_all_but (const t_candidate & candidate);
 
 
     void unfilter (const t_filter & filter);
-    void unfilter (t_id component);
+    void unfilter (t_id id);
 
     void resize (t_id size);
 private:
-    std::vector<t_transaction_id> _filter;
+    std::vector<t_id> _filter;
 
     t_count filtered_count;
 };

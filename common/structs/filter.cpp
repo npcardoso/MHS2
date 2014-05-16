@@ -24,7 +24,7 @@ t_id t_filter::next_filtered (t_id c) const {
     return 0;
 }
 
-t_id t_filter::get_last () const {
+t_id t_filter::size () const {
     return _filter.size() ? (_filter.size() - 1) : 0UL;
 }
 
@@ -40,8 +40,6 @@ bool t_filter::is_filtered (t_id c) const {
 
     return _filter[c - 1] != c;
 }
-
-void t_filter::filter (const t_filter & filter) {}
 
 void t_filter::filter_all (const structs::t_candidate & candidate) {
     structs::t_candidate::const_reverse_iterator it = candidate.rbegin();
@@ -90,6 +88,35 @@ void t_filter::filter (t_id c) {
 
     while (i-- && _filter[i] == c)
         _filter[i] = next;
+}
+
+void t_filter::filter (const t_filter & filter) {
+    t_id id = 0;
+
+
+    while ((id = filter.next_filtered(id)))
+        this->filter(id);
+}
+
+void t_filter::unfilter (t_id id) {
+    if (!is_filtered(id))
+        return;
+
+    filtered_count--;
+
+    t_id next = _filter[id];
+    t_id i = id;
+
+    while (i-- && _filter[i] == next)
+        _filter[i] = id;
+}
+
+void t_filter::unfilter (const t_filter & filter) {
+    t_id id = 0;
+
+
+    while ((id = filter.next_filtered(id)))
+        unfilter(id);
 }
 
 void t_filter::resize (t_id size) {
