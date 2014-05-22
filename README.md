@@ -286,7 +286,4 @@ $ ./tools/generate.py 4 3 0.5 1
 
 # License
 
-
-```
 Distributed under the GNU LESSER GENERAL PUBLIC LICENSE - see LICENSE.txt for further details.
-```
