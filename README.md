@@ -288,5 +288,5 @@ $ ./tools/generate.py 4 3 0.5 1
 
 
 ```
-(setq before-save-hook nil)
+Distributed under the GNU LESSER GENERAL PUBLIC LICENSE - see LICENSE.txt for further details.
 ```
