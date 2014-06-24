@@ -17,7 +17,7 @@ universe, find all sets `d` such that:
 ## Introduction
 
 This algorithm was primarily designed for solving the candidate
-generation problem in scope of spectrum-based reasoning to fault 
+generation problem in scope of spectrum-based reasoning to fault
 localization (SFL) [[2]](#ref2).
 
 ### Terminology
@@ -82,25 +82,25 @@ The minimal hitting set algorithm MHS2 was first described in [[1]](#ref1), and 
 
 We are currently advancing its capabilities further, and we expect to report the new changes in a journal paper soon.
 
-### References 
+### References
 
 <a id="ref1"></a>[[1]](http://link.springer.com/chapter/10.1007/978-3-642-39955-8_3)
 ```
-Nuno Cardoso and Rui Abreu. "MHS2: A Map-Reduce Heuristic-Driven Minimal Hitting Set Search Algorithm." 
-In Multicore Software Engineering, Performance, and Tools (MUSEPAT'13). 
+Nuno Cardoso and Rui Abreu. "MHS2: A Map-Reduce Heuristic-Driven Minimal Hitting Set Search Algorithm."
+In Multicore Software Engineering, Performance, and Tools (MUSEPAT'13).
 Springer Berlin Heidelberg, 2013. 25-36.
 ```
 
 <a id="ref2"></a>[[2]](http://ieeexplore.ieee.org/?arnumber=5431781)
 ```
-Rui Abreu, Peter Zoeteweij, and Arjan JC Van Gemund. "Spectrum-based multiple fault localization." 
+Rui Abreu, Peter Zoeteweij, and Arjan JC Van Gemund. "Spectrum-based multiple fault localization."
 In Proceedings of the 24th IEEE/ACM International Conference on Automated Software Engineering (ASE'09).
 IEEE Computer Society, 2009.
 ```
 
 <a id="ref3"></a>[[3]](http://aaai.org/ocs/index.php/SARA/SARA09/paper/view/834)
 ```
-Rui Abreu and Arjan JC van Gemund. "A Low-Cost Approximate Minimal Hitting Set Algorithm and its Application to Model-Based Diagnosis." 
+Rui Abreu and Arjan JC van Gemund. "A Low-Cost Approximate Minimal Hitting Set Algorithm and its Application to Model-Based Diagnosis."
 In Proceedings of the 8th Symposium on Abstraction, Reformulation and Approximation (SARA'09).
 AAAI Press, 2009.
 ```
@@ -129,22 +129,22 @@ Use `run_tests.sh` to run the unit tests.
 ## Running
 
 ```
-Usage: ./build/mhs2 [options]  
-  -i, --input            	Defines input file  
-  -o, --output           	Defines output file  
-  -h, --help             	Shows help text  
-  -v, --verbose          	Enables verbose output  
-  -p, --print-spectra    	Prints the spectra read from input  
-  -P, --candidate-printer	Selects a candidate printer (normal, pretty, latex)  
-  -a, --ambiguity        	Turns on ambiguity group removal  
-  -c, --conflict         	Turns on conflict ambiguity removal  
-  -t, --time             	Sets the time-based cutoff value (seconds)  
-  -D, --candidates       	Sets the candidate collection size cutoff value  
-  -d, --cardinality      	Sets the candidate cardinality cutoff value  
-  -l, --lambda           	Sets the lambda cutoff value  
-  -s, --similarity       	Sets heuristic (ochiai, jaccard, tarantula, random)  
-  -L, --fork-level       	Sets the forking level  
-  -T, --threads          	Sets the number of threads  
+Usage: ./build/mhs2 [options]
+  -i, --input            	Defines input file
+  -o, --output           	Defines output file
+  -h, --help             	Shows help text
+  -v, --verbose          	Enables verbose output
+  -p, --print-spectra    	Prints the spectra read from input
+  -P, --candidate-printer	Selects a candidate printer (normal, pretty, latex)
+  -a, --ambiguity        	Turns on ambiguity group removal
+  -c, --conflict         	Turns on conflict ambiguity removal
+  -t, --time             	Sets the time-based cutoff value (seconds)
+  -D, --candidates       	Sets the candidate collection size cutoff value
+  -d, --cardinality      	Sets the candidate cardinality cutoff value
+  -l, --lambda           	Sets the lambda cutoff value
+  -s, --similarity       	Sets heuristic (ochiai, jaccard, tarantula, random)
+  -L, --fork-level       	Sets the forking level
+  -T, --threads          	Sets the number of threads
 ```
 
 ### Input Format
@@ -152,10 +152,10 @@ Usage: ./build/mhs2 [options]
 A spectra is represented in the following format:
 
 ```
-<M> <N>  
-<     > < >  
-<  A  > <e>  
-<     > < >  
+<M> <N>
+<     > < >
+<  A  > <e>
+<     > < >
 ```
 
 Where:
@@ -165,7 +165,7 @@ Where:
 * `A`: binary activity matrix (`1` -> `active`, `0` -> `inactive`)
 * `e`: error vector (`x`/`1` -> `fail`, `.`/`0` -> `pass`)
 
-Consider a system with 3 components. Also, consider that 3
+Consider a system with 3 components. Also, consider that 2
 transactions were observed for this system:
 
 1. Involving `c1` and `c2`. Outcome: `fail`
@@ -174,9 +174,9 @@ transactions were observed for this system:
 The corresponding spectra is as follows:
 
 ```
-3 2  
-1 1 0 x  
-1 0 1 .  
+3 2
+1 1 0 x
+1 0 1 .
 ```
 
 ### Output Format
@@ -189,10 +189,10 @@ The set of candidates `{{c1}, {c2,c3}, {c4,c5,c6}}` would be
 represented as follows:
 
 ```
-1 0  
-2 3 0  
-4 5 6 0  
-0 0  
+1 0
+2 3 0
+4 5 6 0
+0 0
 ```
 
 ### Ambiguity Group Removal
@@ -204,9 +204,9 @@ have equal activation pattern in failing transactions.
 Take for instance the following spectra:
 
 ```
-4 2  
-1 1 0 0 x  
-0 0 1 1 x  
+4 2
+1 1 0 0 x
+0 0 1 1 x
 ```
 
 For this spectra `c1` and `c2` form an ambiguity group.
@@ -220,12 +220,12 @@ Returning to the example, running the algorithm with no ambiguity
 removal yields 4 candidates.
 
 ```
-$ echo "4 2 1 1 0 0 x 0 0 1 1 x" | ./build/mhs2  
-1 3 0  
-1 4 0  
-2 3 0  
-2 4 0  
-0 0  
+$ echo "4 2 1 1 0 0 x 0 0 1 1 x" | ./build/mhs2
+1 3 0
+1 4 0
+2 3 0
+2 4 0
+0 0
 ```
 
 Running the algorithm with ambiguity removal only 1 candidate is
@@ -234,12 +234,12 @@ applying all possible substitutions encoded in the ambiguity group
 information.
 
 ```
-$ echo "4 2 1 1 0 0 x 0 0 1 1 x" | ./build/mhs2 -a  
-g(1) = s(2)  
-g(3) = s(4)  
-  
-1 3 0  
-0 0  
+$ echo "4 2 1 1 0 0 x 0 0 1 1 x" | ./build/mhs2 -a
+g(1) = s(2)
+g(3) = s(4)
+
+1 3 0
+0 0
 ```
 
 An ambiguity group is encoded as `g(grp_id) = s(a, b, ..., k)`, where
@@ -278,10 +278,10 @@ This tool randomly generates spectra based on 4 parameters:
 
 ```
 $ ./tools/generate.py 4 3 0.5 1
-4 3  
-0 0 1 0 x  
-1 1 0 1 x  
-1 1 0 0 x  
+4 3
+0 0 1 0 x
+1 1 0 1 x
+1 1 0 0 x
 ```
 
 # License
