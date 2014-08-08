@@ -36,7 +36,6 @@ else:
     env['CCFLAGS'] = "-O3 -DNDEBUG"
 env['CCFLAGS'] += " -std=c++11  -Wall -pedantic"
 
-env['CPPPATH'] += root
 
 env['ENV']['TERM'] = os.environ['TERM']
 
