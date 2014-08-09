@@ -97,6 +97,13 @@ std::istream & t_count_spectra::read (std::istream & in) {
     try {
         in.exceptions(std::istream::failbit | std::istream::badbit);
 
+        char c = in.peek();
+        do {
+          if('#' == c) { //discard line, it is a comment
+              while('\n' != (c = in.get())) ;
+          }
+        } while('#' == (c = in.peek())); //starts with #, then it is a comment.
+
         in >> c_count >> tr_count;
         spectra.set_count(c_count, tr_count);
 
@@ -120,8 +127,9 @@ std::istream & t_count_spectra::read (std::istream & in) {
         if (c_count && tr_count) {
             if (c_count == read_components)
                 std::cerr << "Problem reading error information in transaction " << read_transactions;
-            else
+            else {
                 std::cerr << "Problem reading spectra after " << read_transactions << " transactions and " << read_components << " components" << std::endl;
+            }
         }
         else if (!in.eof()) {
             std::cerr << "Problem reading spectra size " << std::endl;
