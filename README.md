@@ -130,21 +130,21 @@ Use `run_tests.sh` to run the unit tests.
 
 ```
 Usage: ./build/mhs2 [options]
-  -i, --input            	Defines input file
-  -o, --output           	Defines output file
-  -h, --help             	Shows help text
-  -v, --verbose          	Enables verbose output
-  -p, --print-spectra    	Prints the spectra read from input
+  -i, --input			Defines input file
+  -o, --output			Defines output file
+  -h, --help			Shows help text
+  -v, --verbose			Enables verbose output
+  -p, --print-spectra		Prints the spectra read from input
   -P, --candidate-printer	Selects a candidate printer (normal, pretty, latex)
-  -a, --ambiguity        	Turns on ambiguity group removal
-  -c, --conflict         	Turns on conflict ambiguity removal
-  -t, --time             	Sets the time-based cutoff value (seconds)
-  -D, --candidates       	Sets the candidate collection size cutoff value
-  -d, --cardinality      	Sets the candidate cardinality cutoff value
-  -l, --lambda           	Sets the lambda cutoff value
-  -s, --similarity       	Sets heuristic (ochiai, jaccard, tarantula, random)
-  -L, --fork-level       	Sets the forking level
-  -T, --threads          	Sets the number of threads
+  -a, --ambiguity		Turns on ambiguity group removal
+  -c, --conflict		Turns on conflict ambiguity removal
+  -t, --time			Sets the time-based cutoff value (seconds)
+  -D, --candidates		Sets the candidate collection size cutoff value
+  -d, --cardinality		Sets the candidate cardinality cutoff value
+  -l, --lambda			Sets the lambda cutoff value
+  -s, --similarity		Sets heuristic (ochiai, jaccard, tarantula, random)
+  -L, --fork-level		Sets the forking level
+  -T, --threads			Sets the number of threads
 ```
 
 ### Input Format
@@ -283,6 +283,12 @@ $ ./tools/generate.py 4 3 0.5 1
 1 1 0 1 x
 1 1 0 0 x
 ```
+
+# Indentation
+
+Use uncrustify to indent code:
+- cd .git/hooks
+- ln -s ../../tools/uncrustify/uncrustify-hook pre-commit
 
 # License
 
