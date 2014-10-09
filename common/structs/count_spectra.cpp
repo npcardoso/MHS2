@@ -129,6 +129,7 @@ std::istream & t_count_spectra::read (std::istream & in) {
             spectra.set_error(tr, err);
 
             read_transactions++;
+
             read_components = 0;
         }
 

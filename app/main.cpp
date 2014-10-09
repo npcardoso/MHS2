@@ -73,9 +73,6 @@ int main (int argc, char ** argv) {
         t_count_spectra spectra;
         spectra.read(options.input());
 
-        if (options.input().eof())
-            break;
-
         if (options.input().fail() || options.input().bad()) {
             std::cerr << "Problem reading spectra" << std::endl;
             return 1;
