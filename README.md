@@ -83,6 +83,12 @@ The minimal hitting set algorithm MHS2 was first described in [[1]](#ref1), and 
 We are currently advancing its capabilities further, and we expect to report the new changes in a journal paper soon.
 
 ### References
+<a id="ref1"></a>[[1]](http://dx-2014.ist.tugraz.at/papers/DX14_Mon_PM_S1_paper1.pdf)
+```
+Nuno Cardoso and Rui Abreu. "An Efficient Distributed Algorithm for Computing Minimal Hitting Sets."
+In Proceedings of the 25th International Workshop on Principles of Diagnosis (DX'14).
+Graz, Austria, 2014. (Best Paper Award)
+```
 
 <a id="ref1"></a>[[1]](http://link.springer.com/chapter/10.1007/978-3-642-39955-8_3)
 ```
