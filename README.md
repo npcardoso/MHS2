@@ -90,21 +90,21 @@ In Proceedings of the 25th International Workshop on Principles of Diagnosis (DX
 Graz, Austria, 2014. (Best Paper Award)
 ```
 
-<a id="ref1"></a>[[1]](http://link.springer.com/chapter/10.1007/978-3-642-39955-8_3)
+<a id="ref1"></a>[[2]](http://link.springer.com/chapter/10.1007/978-3-642-39955-8_3)
 ```
 Nuno Cardoso and Rui Abreu. "MHS2: A Map-Reduce Heuristic-Driven Minimal Hitting Set Search Algorithm."
 In Multicore Software Engineering, Performance, and Tools (MUSEPAT'13).
 Springer Berlin Heidelberg, 2013. 25-36.
 ```
 
-<a id="ref2"></a>[[2]](http://ieeexplore.ieee.org/?arnumber=5431781)
+<a id="ref2"></a>[[3]](http://ieeexplore.ieee.org/?arnumber=5431781)
 ```
 Rui Abreu, Peter Zoeteweij, and Arjan JC Van Gemund. "Spectrum-based multiple fault localization."
 In Proceedings of the 24th IEEE/ACM International Conference on Automated Software Engineering (ASE'09).
 IEEE Computer Society, 2009.
 ```
 
-<a id="ref3"></a>[[3]](http://aaai.org/ocs/index.php/SARA/SARA09/paper/view/834)
+<a id="ref3"></a>[[4]](http://aaai.org/ocs/index.php/SARA/SARA09/paper/view/834)
 ```
 Rui Abreu and Arjan JC van Gemund. "A Low-Cost Approximate Minimal Hitting Set Algorithm and its Application to Model-Based Diagnosis."
 In Proceedings of the 8th Symposium on Abstraction, Reformulation and Approximation (SARA'09).
