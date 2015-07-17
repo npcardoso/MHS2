@@ -15,7 +15,7 @@ def find_sources(root, depth=4):
 common = find_sources("common")
 
 env.Append(CPPPATH = ["common"],
-           LINKFLAGS = " -lboost_system")
+           LINKFLAGS = " -lboost_system -lpthread")
 obj = env.Program(target = "mhs2", source = find_sources("app") + common)
 
 if env['debug']:
