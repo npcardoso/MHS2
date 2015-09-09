@@ -37,7 +37,8 @@ else:
 env['CCFLAGS'] += " -std=c++11  -Wall -pedantic"
 
 
-env['ENV']['TERM'] = os.environ['TERM']
+if 'TERM' in os.environ:
+	env['ENV']['TERM'] = os.environ['TERM']
 
 
 Export('env')
